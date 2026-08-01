@@ -1,5 +1,5 @@
 diff --git a/plugin/forward/forward.go b/plugin/forward/forward.go
-index bfe810738..22bc70413 100644
+index 2dc939bc7..603d31043 100644
 --- a/plugin/forward/forward.go
 +++ b/plugin/forward/forward.go
 @@ -8,6 +8,7 @@ import (
@@ -19,7 +19,16 @@ index bfe810738..22bc70413 100644
  
  	nextAlternateRcodes []int
  	nextOnNodata        bool
-@@ -287,8 +288,10 @@ func (f *Forward) isAllowedDomain(name string) bool {
+@@ -81,7 +82,7 @@ type Forward struct {
+ 
+ // New returns a new Forward.
+ func New() *Forward {
+-	f := &Forward{maxfails: 2, tlsConfig: new(tls.Config), expire: defaultExpire, readTimeout: defaultReadTimeout, p: new(random), from: ".", hcInterval: hcInterval, dohMethod: http.MethodPost, opts: proxyPkg.Options{ForceTCP: false, PreferUDP: false, HCRecursionDesired: true, HCDomain: "."}}
++	f := &Forward{maxfails: 2, tlsConfig: new(tls.Config), expire: defaultExpire, readTimeout: defaultReadTimeout, p: new(random), from: ".", ignored: make(map[string]struct{}), hcInterval: hcInterval, dohMethod: http.MethodPost, opts: proxyPkg.Options{ForceTCP: false, PreferUDP: false, HCRecursionDesired: true, HCDomain: "."}}
+ 	return f
+ }
+ 
+@@ -291,8 +292,10 @@ func (f *Forward) isAllowedDomain(name string) bool {
  		return true
  	}
  
